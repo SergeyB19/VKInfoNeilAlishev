@@ -1,6 +1,7 @@
 package com.example.vkinfo;
 
 import static com.example.vkinfo.utils.NetworkUtils.generateURL;
+import static com.example.vkinfo.utils.NetworkUtils.getResponseFromURL;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +37,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 URL generatedURL = generateURL(searchField.getText().toString());
-                result.setText(generatedURL.toString());
+                String response = null;
+                try {
+                    response = getResponseFromURL(generatedURL);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+//                result.setText(generatedURL.toString());
+                result.setText(response);
             }
         };
         searchButton.setOnClickListener(onClickListener);
