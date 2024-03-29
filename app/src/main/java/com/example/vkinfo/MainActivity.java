@@ -16,6 +16,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.AsynchronousChannel;
@@ -40,7 +44,22 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String response) {
-            result.setText(response);
+            String firstName = null;
+            String lastName = null;
+
+
+            try {
+                JSONObject jsonResponse = new JSONObject(response);
+                JSONArray jsonArray = jsonResponse.getJSONArray("response");
+                JSONObject userInfo = jsonArray.getJSONObject(0);
+                firstName = userInfo.getString("first_name");
+                lastName = userInfo.getString("last_name");
+
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            String resultString = "Имя: " + firstName + "\n" + "Фамилия: " + lastName;
+            result.setText(resultString);
         }
     }
 
