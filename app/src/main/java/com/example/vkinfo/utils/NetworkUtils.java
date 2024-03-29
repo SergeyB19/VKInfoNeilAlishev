@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class NetworkUtils {
@@ -21,7 +22,7 @@ public class NetworkUtils {
                 .buildUpon()
                 .appendQueryParameter(PARAM_USER_ID, userID)
                 .appendQueryParameter(PARAM_VERSION, "5.8")
-                .appendQueryParameter(ACCESS_TOKEN,"c6044b7fc6044b7f4c6608dc6cc604c6044b7f9d256697c11625abfcfd58b4")
+                .appendQueryParameter(ACCESS_TOKEN, "c6044b7fc6044b7f4c6608dc6cc604c6044b7f9d256697c11625abfcfd58b4")
                 .build();
 
         URL url = null;
@@ -47,6 +48,8 @@ public class NetworkUtils {
             } else {
                 return null;
             }
+        } catch (UnknownHostException e) {
+            return null;
         } finally {
             urlConnection.disconnect();
 
